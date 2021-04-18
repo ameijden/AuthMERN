@@ -1,8 +1,7 @@
 const path = require('path');
 const express = require('express');
-const redis = require("redis");
-const connectRedis = require("connect-redis");
-const session = require("express-session");
+// const redis = require("redis");
+// const connectRedis = require("connect-redis");
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -11,15 +10,16 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+
 require("dotenv").config();
 const {
   NODE_ENV,
-  SESSION_NAME,
-  SESSION_SECRET,
-  SESSION_LIFETIME,
-  REDIS_HOST,
-  REDIS_PORT,
-  REDIS_PASSWORD,
+  // SESSION_NAME,
+  // SESSION_SECRET,
+  // SESSION_LIFETIME,
+  // REDIS_HOST,
+  // REDIS_PORT,
+  // REDIS_PASSWORD,
 } = process.env;
 
 const Routes = require('./routes/routes')
@@ -32,43 +32,51 @@ const globalErrorHandler = require('./controllers/errorController');
 const app = express();
 app.disable("x-powered-by");
 
-const RedisStore = connectRedis(session);
+//Mongo Session
+require('dotenv').config({ path: '.env' });
+const session = require("express-session");
+var MongoDBStore = require('connect-mongodb-session')(session);
 
-const redisClient = redis.createClient({
-  host: REDIS_HOST,
-  port: REDIS_PORT,
-  password: REDIS_PASSWORD,
-});
-redisClient.unref();
-redisClient.on("error", console.log);
-
-const store = new RedisStore({ client: redisClient });
-
-app.use(
-  session({
-    store,
-    name: SESSION_NAME,
-    secret: SESSION_SECRET,
-    resave: true,
-    rolling: true,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: Number(SESSION_LIFETIME),
-      sameSite: true,
-      secure: NODE_ENV === "production",
-    },
-  }),
+const DB = process.env.DATABASE.replace(
+  '<NAME>',
+  process.env.DATABASE_NAME
+).replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
 );
 
-app.enable('trust proxy');
+var store = new MongoDBStore({
+  uri: DB,
+  collection: 'sessions'
 
+});
+
+// Catch errors
+store.on('error', function (error) {
+  console.log(error);
+});
+
+app.use(require('express-session')({
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    maxAge: parseInt(process.env.SESSION_LIFETIME) // 1 week
+  },
+  store: store,
+  // Boilerplate options, see:
+  // * https://www.npmjs.com/package/express-session#resave
+  // * https://www.npmjs.com/package/express-session#saveuninitialized
+  resave: true,
+  saveUninitialized: true
+}));
+//Mongo Session Logic End
+
+app.enable('trust proxy');
 
 // 1) GLOBAL MIDDLEWARES
 // Implement CORS
 app.use(cors({
   origin: [
-    'http://localhost:8080',
-    'https://localhost:8080'
+    process.env.CLIENT_ORIGINS.split(',')
   ],
   credentials: true,
   exposedHeaders: ['set-cookie']

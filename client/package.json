@@ -5,8 +5,10 @@
   "dependencies": {
     "@craco/craco": "^6.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/react-fontawesome": "^0.1.14",
+    "@reduxjs/toolkit": "^1.5.1",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.9",
@@ -14,9 +16,13 @@
     "@testing-library/user-event": "^12.6.2",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
+    "focus-trap-react": "^8.4.2",
+    "http-proxy-middleware": "^0.19.1",
     "postcss": "^7.0.35",
+    "query-string": "^4.3.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
@@ -45,6 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {}
+  }
 }

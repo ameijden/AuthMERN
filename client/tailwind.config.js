@@ -9,7 +9,9 @@ module.exports = {
     extend: {
       display: ['group-hover'],
       width: ['group-hover'],
-      margin: ['hover']
+      margin: ['hover'],
+      scale: ['hover'],
+      gradientColorStops: ['hover']
       // visibility: ['group-hover'],
     },
   },

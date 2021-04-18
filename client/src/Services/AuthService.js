@@ -1,77 +1,71 @@
-import request from './Request';
-import axios from "axios"
-import CONFIG from '../Services/Config'
+import request from "./Request";
+// import axios from "axios";
+import CONFIG from "../Services/Config";
 
+// let getInstagramCode = () => {
+//     return axios.get();
+// }
 
-let getFacebookCode = () => {
-    return axios.get(`${CONFIG.FB.ACCESS_TOKEN_URL}?
-    client_id=${CONFIG.FB.CLIENT_ID}
-   &redirect_uri=${CONFIG.FB.REDIRECT_URI}`);
-}
+let userFacebookAuthenticate = (code, type = "login") => {
+  return request("post", `auth/facebook`, {
+    code: code,
+    redirect_uri: CONFIG.FB.REDIRECT_URI.replace("login", type),
+    type: type,
+  });
+};
 
-let getInstagramCode = () => {
-    return axios.get(`${CONFIG.INSTAGRAM.ACCESS_TOKEN_URL}?
-    client_id=${CONFIG.INSTAGRAM.CLIENT_ID}
-   &redirect_uri=${CONFIG.INSTAGRAM.REDIRECT_URI}`);
-}
+let userInstagramAuthenticate = (code, type = "login") => {
+  return request("post", `auth/instagram`, {
+    code: code,
+    redirect_uri: CONFIG.INSTAGRAM.REDIRECT_URI.replace("login", type),
+    type: type,
+  });
+};
 
 let login = (credentials) => {
-    return request('post', 'login', credentials);
-}
+  return request("post", "auth/signin", credentials);
+};
 
 let signup = (data) => {
-    return request('post', 'signup', data);
-}
+  return request("post", "auth/signup", data);
+};
 
-let saveToken = (token) => {
-    localStorage.setItem('auth-token', token);
-}
+let addEmailLogin = (data) => {
+  return request("post", "auth/addEmailLogin", data);
+};
 
-let getToken = () => {
-    let token = localStorage.getItem('auth-token');
-    return token;
-}
-
-let getUserDetails = () => {
-    const token = getToken();
-    let payload;
-    if (token) {
-        payload = token.split('.')[1];
-        payload = window.atob(payload);
-        return JSON.parse(payload);
-    } else {
-        return null;
-    }
-}
+let updateSelf = (data) => {
+  return request("post", "auth/updateSelf", data);
+};
 
 let isLoggedIn = () => {
-    const user = getUserDetails();
-    if (user) {
-        return user.exp > Date.now() / 1000;
-        // return true;
-    } else {
-        return false;
-    }
-}
+  return localStorage.getItem("loggedIn") === "true";
+};
 
-let checkAuthState = () => {
-    return request('get', 'loginStatus');
-}
+export const checkAuthState = () => {
+  return request("get", "auth/isSignedIn");
+};
 
-let logout = () => {
-    localStorage.removeItem('auth-token');
-}
+export const signOut = () => {
+  return request("get", "auth/signOut");
+};
+
+export const getSelf = () => {
+  return request("get", "auth/getSelf");
+};
 
 //EXPORTING SERVICE FUNCTIONS
 const AuthService = {
-    request,
-    saveToken,
-    getToken,
-    getUserDetails,
-    isLoggedIn,
-    checkAuthState,
-    login,
-    signup,
-    logout,
+  request,
+  isLoggedIn,
+  checkAuthState,
+  login,
+  signup,
+  signOut,
+  getSelf,
+  updateSelf,
+  addEmailLogin,
+  userFacebookAuthenticate,
+  userInstagramAuthenticate,
 };
 export default AuthService;
