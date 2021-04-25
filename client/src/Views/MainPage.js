@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Welcome from "../Components/Welcome";
 import { useSelector } from "react-redux";
 import Modal from "../Components/modal";
 import UserDetailsForm from "../Components/userDetailsForm";
@@ -19,7 +18,7 @@ export default function MainPage() {
     };
 
     let detailsCheck = hasNull(details);
-    console.log(detailsCheck);
+    // console.log(detailsCheck);
     setModalShow(detailsCheck);
   }, [user]);
 

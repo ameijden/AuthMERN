@@ -6,13 +6,11 @@ import AuthService from "../Services/AuthService";
 import Modal from "../Components/modal";
 import AddEmailLoginForm from "../Components/addEmailLoginForm";
 import qs from 'query-string'
-import { useHistory } from "react-router";
 
 import { logIn } from "../store/reducers/authReducer";
 import { useDispatch } from "react-redux";
 
 function Profile(props) {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth.user);

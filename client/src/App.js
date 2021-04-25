@@ -46,7 +46,7 @@ function App() {
           response: ""
         })
       });
-  }, []);
+  }, []);//eslint-disable-line
 
   return (
     <div className='h-screen flex flex-col w-full'>

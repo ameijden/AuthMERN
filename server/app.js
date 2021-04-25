@@ -58,15 +58,15 @@ store.on('error', function (error) {
 
 app.use(require('express-session')({
   secret: process.env.SESSION_SECRET,
-  cookie: {
-    maxAge: parseInt(process.env.SESSION_LIFETIME) // 1 week
-  },
+  saveUninitialized: false, // don't create session until something stored
+  resave: false, //don't save session if unmodified
   store: store,
-  // Boilerplate options, see:
-  // * https://www.npmjs.com/package/express-session#resave
-  // * https://www.npmjs.com/package/express-session#saveuninitialized
-  resave: true,
-  saveUninitialized: true
+  cookie: {
+    maxAge: parseInt(process.env.SESSION_LIFETIME), // 1 week
+    httpOnly: true,
+    secure: !(process.env.NODE_ENV === "development"),
+    sameSite: false
+  },
 }));
 //Mongo Session Logic End
 
@@ -106,7 +106,7 @@ app.use('/api', limiter);
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '250kb' }));
 app.use(express.urlencoded({ extended: true, limit: '250kb' }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -115,18 +115,18 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent parameter pollution
-app.use(
-  hpp({
-    whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price'
-    ]
-  })
-);
+// app.use(
+//   hpp({
+//     whitelist: [
+//       'duration',
+//       'ratingsQuantity',
+//       'ratingsAverage',
+//       'maxGroupSize',
+//       'difficulty',
+//       'price'
+//     ]
+//   })
+// );
 
 // Test middleware
 app.use((req, res, next) => {

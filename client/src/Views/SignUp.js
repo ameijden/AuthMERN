@@ -112,9 +112,14 @@ export default function SignUp(props) {
         // });
       })
       .catch((err) => {
+        let response = "Failed to signup";
+        if (err.response.data && err.response.data.message) {
+          response = err.response.data.message
+        }
+        console.log(err.response)
         setSubmitState({
           loading: -1,
-          response: "Invalid Email Or Password",
+          response: response,
         });
       });
   };

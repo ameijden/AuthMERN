@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AuthService from "../Services/AuthService";
 import { logIn } from "../store/reducers/authReducer";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
 
 export default function AddEmailLoginForm() {
   const dispatch = useDispatch();
@@ -16,7 +15,6 @@ export default function AddEmailLoginForm() {
     loading: 0,
     response: "",
   });
-  const history = useHistory();
 
   const onSubmit = (e) => {
     e.stopPropagation();

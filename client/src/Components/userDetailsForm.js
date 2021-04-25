@@ -42,9 +42,9 @@ export default function UserDetailsForm() {
         console.log(err.response.data);
         setSubmitState({
           loading: -1,
-          response: err.response.data
+          response: err.response.data && typeof (err.response.data) === "string"
             ? err.response.data
-            : "Invalid Email Or Password",
+            : "Failed To Update Details",
         });
       });
   };

@@ -3,7 +3,7 @@ const User = require('../models/user');
 const axios = require('axios').default;
 const request = require('request');
 
-const signedIn = req => req.session.userId;
+const signedIn = req => !!req.session.userId;
 
 exports.ensureSignedIn = (req, res, next) => {
   if (!signedIn(req)) {
@@ -25,7 +25,7 @@ exports.isSignedIn = (req, res, next) => {
 exports.signUp = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    req.session.userId = user.id;
+    req.session.userId = user._id;
     res.status(201).json({ user: user });
   } catch (error) {
     res.status(500).json(error);
@@ -91,13 +91,15 @@ exports.continueWithFacebook = async (req, res, next) => {
       res.status(500).json(error);
       return
     }
+    return
   }
 
   //finding user in database
   let user = await User.findOne({ facebook_id: fb_user.id });
   if (!!user) {
     req.session.userId = user._id;
-    res.status(201).json({ user: user });
+    console.log(req.session)
+    res.status(200).json({ user: user });
     return;
   } else if (!user && type === 'signup') {
     let model = {
@@ -110,6 +112,7 @@ exports.continueWithFacebook = async (req, res, next) => {
     }
     user = await User.create(model);
     req.session.userId = user._id;
+    console.log(req.session)
     res.status(201).json({ user: user });
     return;
   } else {
@@ -167,6 +170,7 @@ exports.continueWithInstagram = async (req, res, next) => {
     let user = await User.findOne({ instagram_id: i_access.user_id });
     if (!!user) {
       req.session.userId = user._id;
+      console.log(req.session.userId)
       res.status(201).json({ user: user });
       return;
     } else if (!user && type === 'signup') {
@@ -175,6 +179,7 @@ exports.continueWithInstagram = async (req, res, next) => {
       };
       user = await User.create(model);
       req.session.userId = user._id;
+      console.log(req.session)
       res.status(201).json({ user: user });
       return;
     } else {
