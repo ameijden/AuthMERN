@@ -76,7 +76,16 @@ exports.continueWithFacebook = async (req, res, next) => {
     return;
   }
 
-  if (signedIn(req)) {
+
+  //finding user in database
+  let user = await User.findOne({ facebook_id: fb_user.id });
+
+  //handling add method if user is already signed in
+  if (signedIn(req) && type === "profile") {
+    if (!!user) {
+      res.status(406).json('This Facebook ID is already associated with an account')
+      return
+    }
     try {
       let user = await User.findById(req.session.userId);
       if (user.facebook_id === undefined) {
@@ -91,28 +100,27 @@ exports.continueWithFacebook = async (req, res, next) => {
       res.status(500).json(error);
       return
     }
-    return
   }
 
-  //finding user in database
-  let user = await User.findOne({ facebook_id: fb_user.id });
   if (!!user) {
     req.session.userId = user._id;
-    console.log(req.session)
     res.status(200).json({ user: user });
     return;
   } else if (!user && type === 'signup') {
     let model = {
       facebook_id: fb_user.id
     };
-    let first_name_space = fb_user.name.indexOf(' ');
-    if (first_name_space >= 0) {
-      model.firstname = fb_user.name.slice(0, first_name_space);
-      model.lastname = fb_user.name.slice(first_name_space + 1);
+    try {
+      let first_name_space = fb_user.name.indexOf(' ');
+      if (first_name_space >= 0) {
+        model.firstname = fb_user.name.slice(0, first_name_space);
+        model.lastname = fb_user.name.slice(first_name_space + 1);
+      }
+    } catch {
+      model.firstname = fb_user.name
     }
     user = await User.create(model);
     req.session.userId = user._id;
-    console.log(req.session)
     res.status(201).json({ user: user });
     return;
   } else {
@@ -149,7 +157,15 @@ exports.continueWithInstagram = async (req, res, next) => {
       return;
     }
 
-    if (signedIn(req)) {
+
+    //finding user in database
+    let user = await User.findOne({ instagram_id: i_access.user_id });
+
+    if (signedIn(req) && type === "profile") {
+      //return if ID is already associated with an account
+      if (!!user) {
+        res.status(406).json('This Instagram ID is already associated with an account')
+      }
       try {
         let user = await User.findById(req.session.userId);
         if (user.instagram_id === undefined) {
@@ -166,11 +182,9 @@ exports.continueWithInstagram = async (req, res, next) => {
       }
     }
 
-    //finding user in database
-    let user = await User.findOne({ instagram_id: i_access.user_id });
+    //signin and return account if ID is already associated with an account
     if (!!user) {
       req.session.userId = user._id;
-      console.log(req.session.userId)
       res.status(201).json({ user: user });
       return;
     } else if (!user && type === 'signup') {
@@ -179,7 +193,6 @@ exports.continueWithInstagram = async (req, res, next) => {
       };
       user = await User.create(model);
       req.session.userId = user._id;
-      console.log(req.session)
       res.status(201).json({ user: user });
       return;
     } else {
