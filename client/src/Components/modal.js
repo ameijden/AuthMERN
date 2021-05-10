@@ -1,35 +1,88 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import ConfirmDialog from './ConfirmDialog';
 
-export default function Dialog(props) {
-  const { open, onClose, closeButtonShow, outSideTouchClose } = props;
 
-  function closeOnTouchOutSide() {
-    if (outSideTouchClose) {
-      onClose();
+let resolve;
+
+const Modal = forwardRef((props, ref) => {
+  const { onClose, closeOnBlur } = props;
+  const [open, setOpen] = useState(false)
+  const [content, setContent] = useState(undefined)
+
+
+  const closeOnTouchOutSide = () => {
+    if (closeOnBlur) {
+      onClose && onClose();
+      setOpen(false)
     }
   }
 
+  // const onEscapeKey = (e) => {
+  //   console.log(e.key)
+  //   if (e.key === "Escape") {
+  //     closeOnTouchOutSide()
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   if (!closeOnBlur) return
+  //   document.body.addEventListener("keypress", onEscapeKey, false);
+
+  //   return () => {
+  //     document.body.removeEventListener("keypress", onEscapeKey, false);
+  //   };
+  // }, [props]);
+
+
+
+  useImperativeHandle(ref, () => ({
+
+    show: () => {
+      setOpen(true);
+    },
+    hide: () => {
+      onClose && onClose();
+      resolve && resolve(false)
+      content && setContent(undefined);
+      setOpen(false)
+    },
+    set: (c, res = undefined) => {
+      resolve = res
+      setContent(c)
+      ref.current.show()
+    },
+    confirm: (opts) => {
+      let promise = new Promise(res => { resolve = res })
+      setContent(
+        <ConfirmDialog
+          confirm={() => {
+            resolve(true)
+            ref.current.hide()
+          }}
+          cancel={() => {
+            resolve(false)
+            ref.current.hide()
+          }}
+          options={opts}>
+        </ConfirmDialog>
+      )
+      ref.current.show()
+      return promise
+    },
+
+
+  }));
 
   if (!open) {
     return <></>;
   }
   return (
-    <div className='fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex' onClick={closeOnTouchOutSide}>
-      <div className='relative p-8 bg-white w-full max-w-md m-auto flex-col flex rounded-lg'>
-        <div>{props.children}</div>
-        {closeButtonShow && (
-          <span className='absolute top-0 right-0 p-4'>
-            {""}
-            <button
-              onClick={() => onClose()}
-              className='text-gray-600 transform hover:scale-110 text-xl font-bold focus:outline-none'>
-              <FontAwesomeIcon
-                size='lg'
-                icon={["fas", "times"]}></FontAwesomeIcon>
-            </button>
-          </span>
-        )}
-      </div>
+    <div className='fixed inset-0 z-30 overflow-auto bg-black bg-opacity-50 inline-grid place-content-center' onClick={closeOnTouchOutSide}>
+      <span className='m-auto max-h-screen overflow-y-auto no-scrollbar' onClick={(e) => e.stopPropagation()}>
+        {content || props.children}
+      </span>
     </div>
   );
-}
+})
+
+export default Modal;

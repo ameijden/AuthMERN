@@ -34,12 +34,20 @@ const userSchema = new Schema(
     instagram_id: {
       type: String
     },
-    password: String,
+    password: {
+      type: String,
+      select: false
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],
       default: 'user'
-    }
+    },
+    favouriteMoodBoards: [{ type: Schema.Types.ObjectId, ref: 'MoodBoard' }],
+    homeBoard: {
+      type: Schema.Types.ObjectId,
+      ref: 'MoodBoard'
+    },
   },
   {
     timestamps: true

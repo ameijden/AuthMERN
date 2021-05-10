@@ -208,7 +208,7 @@ exports.signIn = async (req, res, next) => {
     res.status(406).json('Already Signed In');
     return;
   }
-  const user = await User.findOne({ email: email });
+  const user = await User.findOne({ email: email }).select('+password');
   if (!user) {
     res.status(400).json('Please enter a correct email.');
     return;

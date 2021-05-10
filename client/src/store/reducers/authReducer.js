@@ -17,6 +17,8 @@ const authInitialState = {
     password: null,
     facebook_id: null,
     instagram_id: null,
+    homeBoard: null,
+    favouriteMoodBoards: [],
   },
 };
 

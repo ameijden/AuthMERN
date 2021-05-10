@@ -1,0 +1,75 @@
+
+
+// Sign Up
+POST http://localhost:3001/api/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "admin@admin.com",
+		"password": "admin"
+}
+
+###
+// Sign In
+POST http://localhost:3001/api/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "admin@admin.com",
+		"password": "admin"
+}
+
+###
+// Get favourites
+http://localhost:3001/api/users/get-favourites HTTP/1.1
+###
+// Remove All
+Delete http://localhost:3001/api/users/remove-all-favourites HTTP/1.1
+
+###
+// Add post to favourites
+POST http://localhost:3001/api/users/add-to-favourites HTTP/1.1
+content-type: application/json
+
+{
+    "id": "60957854ea0b6a35f8942441"
+}
+
+###
+// Reomve post from favourites
+POST http://localhost:3001/api/users/remove-from-favourites HTTP/1.1
+content-type: application/json
+
+{
+    "id": "609579b2e895ae06141b8d7f"
+}
+
+###
+// Add  A New Board
+POST http://localhost:3001/api/boards HTTP/1.1
+content-type: application/json
+
+{
+    "images": [
+			{
+				"position": 1,
+				"resource": "Resource URL"
+			},
+			{
+				"position": 2,
+				"resource": "Resource URL"
+			},
+			{
+				"position": 3,
+				"resource": "Resource URL"
+			}
+		]
+}
+
+###
+// Get Board By Id
+http://localhost:3001/api/boards/6095771365aa2d037c827145 HTTP/1.1
+
+###
+// Delete Board By Id
+Delete http://localhost:3001/api/boards/60957854ea0b6a35f8942441 HTTP/1.1

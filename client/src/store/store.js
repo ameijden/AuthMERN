@@ -7,7 +7,7 @@ import {
 // import uiReducer from "./reducers/uiReducer";
 import authReducer from "./reducers/authReducer";
 const middleware = [
-    ...getDefaultMiddleware()
+  ...getDefaultMiddleware()
   /*YOUR CUSTOM MIDDLEWARES HERE*/
 ];
 

@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import config from "../Services/Config";
 import AuthService from "../Services/AuthService";
-import Modal from "../Components/modal";
-import AddEmailLoginForm from "../Components/addEmailLoginForm";
+import Modal from "../Components/Modal";
+import AddEmailLoginForm from "../Components/AddEmailLoginForm";
 import qs from 'query-string'
 
 import { logIn } from "../store/reducers/authReducer";

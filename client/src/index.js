@@ -1,17 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope, faSpinner, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "./index.css";
+import "./icons/FortAwesome"
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store/store";
 
 // import reportWebVitals from './reportWebVitals';
 
-library.add(faFacebook, faInstagram, faEnvelope, faTimes, faSpinner);
 
 ReactDOM.render(
   <Provider store={store}>

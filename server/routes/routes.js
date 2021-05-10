@@ -1,16 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-var authRoutes = require("./authRoutes")
+var authRoutes = require('./authRoutes');
+var userRoutes = require('./userRoutes');
+var moodBoardRoutes = require('./moodBoardRoutes');
 // var deviceRoutes = require("./deviceRoutes")
 // var logRoutes = require("./logRoutes")
 
 router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
+router.use('/boards', moodBoardRoutes);
 // router.use('/devices', deviceRoutes);
 // router.use('/logs', logRoutes);
 
 //
-router.get("/status", function (res, res) {
+router.get('/status', function(res, res) {
   res.status(200).send(`
     <body style="background-color: #008080; margin: 0; padding: 0">
       <div style="height: 100vh; display: flex; justify-content: center; align-items: center; color: white ;">
