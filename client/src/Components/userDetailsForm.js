@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import AuthService from "../Services/AuthService";
 import { logIn } from "../store/reducers/authReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 export default function UserDetailsForm() {
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector((state) => state.auth.user);
 
   const [formData, setFormData] = useState({
     firstname: user.firstname ? user.firstname : "",
@@ -28,15 +30,16 @@ export default function UserDetailsForm() {
       loading: 1,
       response: "",
     });
-    console.log(formData);
+    //console.log(formData);
     AuthService.updateSelf(formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         setSubmitState({
           loading: 2,
           response: "",
         });
         dispatch(logIn(res.data));
+        history.push('/')
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -50,7 +53,7 @@ export default function UserDetailsForm() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center flex-grow w-full overflow-y-auto'>
+    <div className='bg-white rounded-md pt-5 flex flex-col items-center justify-center flex-grow w-full overflow-y-auto'>
       <form
         onSubmit={onSubmit}
         className='flex flex-col items-center justify-center gap-2 w-full px-3'>

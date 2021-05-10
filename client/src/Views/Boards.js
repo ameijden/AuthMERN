@@ -24,7 +24,7 @@ export default function Boards(props) {
         } else {
             fetchBoards(props.match.params.user)
         }
-        console.log(user.favouriteMoodBoards);
+        //console.log(user.favouriteMoodBoards);
     }, [props.match.params])//eslint-disable-line
 
     const fetchBoards = (user) => {

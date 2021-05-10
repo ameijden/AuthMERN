@@ -34,7 +34,7 @@ export default function Board(props) {
     useEffect(() => {
         if (!board) return
         setFavourite(favourites.some(f => f === board._id))
-        console.log(board);
+        //console.log(board);
     }, [favourites, board])
 
     const deleteBoard = async () => {
@@ -56,7 +56,7 @@ export default function Board(props) {
     const setAsHome = () => {
         BoardService.setAsHome(board._id).then(res => {
             dispatch(logIn(res.data))
-            console.log(res.data)
+            //console.log(res.data)
         })
     }
 

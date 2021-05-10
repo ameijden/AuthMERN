@@ -45,7 +45,7 @@ export default function Login(props) {
       if (search.code) {
         await AuthService.userFacebookAuthenticate(search.code)
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             dispatch(logIn(res.data));
             history.push("/");
             // setSubmitState({
@@ -71,7 +71,7 @@ export default function Login(props) {
       if (search.code) {
         await AuthService.userInstagramAuthenticate(search.code)
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             dispatch(logIn(res.data));
             history.push("/");
             // setSubmitState({
@@ -100,7 +100,7 @@ export default function Login(props) {
     });
     AuthService.login(formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         dispatch(logIn(res.data));
         // setSubmitState({
         //   loading: 2,

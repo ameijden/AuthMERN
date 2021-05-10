@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Board from "../Components/Board";
@@ -9,11 +9,12 @@ import BoardService from "../Services/BoardService";
 
 export default function Home() {
   const history = useHistory()
+  const $modal = useRef()
   const user = useSelector((state) => state.auth.user);
-  const [modalShow, setModalShow] = useState(false);
   const [board, setBoard] = useState(false);
 
   useEffect(() => {
+    if (localStorage.getItem('board')) history.push('/boards/new')
     if (!!user.homeBoard) {
       BoardService.getBoardByID(user.homeBoard).then(res => {
         setBoard(res.data)
@@ -23,33 +24,6 @@ export default function Home() {
     }
   }, [])//eslint-disable-line
 
-  useEffect(() => {
-    if (localStorage.getItem('board')) history.push('/boards/new')
-
-    let details = {
-      firstname: user.firstname,
-      lastname: user.lastname,
-      age: user.age,
-      street: user.street,
-      city: user.city,
-      zipcode: user.zipcode,
-    };
-
-    let detailsCheck = hasNull(details);
-    // console.log(detailsCheck);
-    setModalShow(detailsCheck);
-  }, [user]);//eslint-disable-line
-
-  function hasNull(target) {
-    for (var member in target) {
-      if (target[member] === null) return true;
-    }
-    return false;
-  }
-
-  const toggleModal = () => {
-    setModalShow(modalShow);
-  };
 
   return (
     <div className='h-full w-full inlinegrid place-items-center'>
@@ -75,10 +49,8 @@ export default function Home() {
         )
       }
       <Modal
-        open={modalShow}
-        onClose={toggleModal}
-        closeButtonShow={false}
-        outSideTouchClose={false}>
+        ref={$modal}
+        closeOnBlur={false}>
         <UserDetailsForm></UserDetailsForm>
       </Modal>
     </div>

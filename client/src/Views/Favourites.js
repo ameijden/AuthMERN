@@ -21,7 +21,7 @@ export default function Favourites(props) {
         setLocalState(1)
         BoardService.getFavorites().then(res => {
             setLocalState(2)
-            console.log(res.data)
+            //console.log(res.data)
             setBoards(res.data.favouriteMoodBoards)
         }).catch(err => {
             setLocalState(-1)

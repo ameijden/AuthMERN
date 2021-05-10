@@ -48,7 +48,7 @@ export default function SignUp(props) {
       if (search.code) {
         await AuthService.userFacebookAuthenticate(search.code, "signup")
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             dispatch(logIn(res.data));
             history.push("/");
             // setSubmitState({
@@ -74,7 +74,7 @@ export default function SignUp(props) {
       if (search.code) {
         await AuthService.userInstagramAuthenticate(search.code, "signup")
           .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             dispatch(logIn(res.data));
             history.push("/");
             // setSubmitState({
@@ -103,7 +103,7 @@ export default function SignUp(props) {
     });
     AuthService.signup(formData)
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         dispatch(logIn(res.data));
         history.push("/");
         // setSubmitState({

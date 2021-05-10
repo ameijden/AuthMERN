@@ -122,7 +122,7 @@ function Profile(props) {
             <div className='w-32 h-1 bg-blue-600 rounded-xl mt-1'></div>
           </div>
           <div className='truncate my-3 p-3 bg-gray-100 rounded-md'>
-            {user.email}
+            {user.email || "--"}
           </div>
         </div>
         <div className=''>
@@ -131,7 +131,7 @@ function Profile(props) {
             <div className='w-32 h-1 bg-blue-600 rounded-xl mt-1'></div>
           </div>
           <div className='my-3 p-3 bg-gray-100 rounded-md'>
-            {user.age} years
+            {user.age ? user.age + " years" : "--"}
           </div>
         </div>
         <div>
