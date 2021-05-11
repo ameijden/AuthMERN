@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import config from "../Services/Config";
 import AuthService from "../Services/AuthService";
 import Modal from "../Components/Modal";
-import AddEmailLoginForm from "../Components/AddEmailLoginForm";
+import AddEmailLoginForm from "../Components/addEmailLoginForm";
 import qs from 'query-string'
 
 import { logIn } from "../store/reducers/authReducer";

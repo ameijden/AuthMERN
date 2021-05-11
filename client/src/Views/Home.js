@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Board from "../Components/Board";
 import Modal from "../Components/Modal";
-import UserDetailsForm from "../Components/UserDetailsForm";
+import UserDetailsForm from "../Components/userDetailsForm"; 
 import BoardService from "../Services/BoardService";
 
 export default function Home() {
