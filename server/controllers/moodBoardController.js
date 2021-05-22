@@ -43,6 +43,16 @@ exports.deleteMoodBoardById = async (req, res) => {
   }
 };
 
+exports.getLatestBoards = async (req, res) => {
+  try {
+    boards = await MoodBoard.find({}).sort({ createdAt: -1 }).limit(6)
+    return res.status(200).json(boards)
+  } catch (err) {
+    return res.status(500).json(err)
+
+  }
+}
+
 exports.getMoodBoardById = async (req, res) => {
   const { id } = req.params;
   try {

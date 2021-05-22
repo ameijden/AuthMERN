@@ -95,9 +95,9 @@ export default function Favourites(props) {
             )}
             {boards.map((b, i) => (
                 <div key={i} onClick={() => history.push({ pathname: `/boards/${b._id}`, board: b })} className="cursor-pointer px-5 py-2 w-full flex justify-between hover:bg-gray-100">
-                    <div className="flex flex-wrap flex-grow gap-2">
+                    <div className="flex flex-wrap w-52 gap-2">
                         {b.images.map(im => (
-                            <div className="w-14 h-10 overflow-hidden rounded-md">
+                            <div className="w-16 h-8 overflow-hidden rounded-md">
                                 <img src={im.resource || ''} alt="  " className="w-full h-full object-cover" />
                             </div>
                         ))}

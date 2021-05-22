@@ -6,7 +6,7 @@ import Modal from '../Components/Modal'
 import BoardService from '../Services/BoardService'
 import config from '../Services/Config'
 
-const initBoard = Array(16).fill({
+const initBoard = Array(12).fill({
     resource: undefined
 })
 
@@ -24,7 +24,7 @@ export default function CreateBoard() {
     useEffect(() => {
         if (localStorage.getItem('board')) localStorage.removeItem('board')
         BoardService.getResources().then(res => {
-            // console.log(res.data)
+            console.log(res.data)
             setResourceImages(res.data)
             if (board[0].resource === undefined) {
                 setBoard(b => {
@@ -49,9 +49,9 @@ export default function CreateBoard() {
                         <FontAwesomeIcon icon="times" className="text-xl"></FontAwesomeIcon>
                     </button>
                 </div>
-                <div className="w-full flex flex-wrap overflow-y-auto no-scrollbar">
+                <div className="w-full flex flex-wrap justify-center overflow-y-auto no-scrollbar">
                     {resourceImages.map((resource) => (
-                        <div key={resource} className="sm:w-1/4 w-full h-40 p-2 overflow-hidden">
+                        <div key={resource} className="lg:w-80 sm:w-64 w-80 lg:h-40 sm:h-32 h-40 p-2 overflow-hidden">
                             <div onClick={() => resolve(`${config.SERVER}/resources/${resource}`)} className="group relative cursor-pointer inline-grid place-items-center w-full h-full bg-gray-100 rounded-md hover:shadow transition-all duration-300">
                                 <img className="border h-full w-full object-cover" src={`${config.SERVER}/resources/${resource}`} alt=" " />
                             </div>
@@ -157,10 +157,10 @@ export default function CreateBoard() {
                         <FontAwesomeIcon icon="info-circle"></FontAwesomeIcon>
                     </button>
                 </div>
-                <div className="w-full flex flex-wrap">
+                <div className="w-full max-w-screen-lg flex flex-wrap justify-center">
                     {board.map((b, i) => (
-                        <div key={i} className="sm:w-1/4 w-full sm:h-36 h-40 p-2">
-                            <div onClick={() => setResource(i)} className={`overflow-hidden group relative cursor-pointer inline-grid place-items-center w-full h-full bg-gray-100 rounded-md hover:shadow-lg transition-all duration-300 ${localState.loading === -1 && !b.resource ? 'ring-1 ring-red-400' : ''}`}>
+                        <div key={i} className="lg:w-80 sm:w-64 w-80 lg:h-40 sm:h-32 h-40 p-2">
+                            <div onClick={() => setResource(i)} className={`overflow-hidden group relative cursor-pointer inline-grid place-items-center w-full h-full ${!b.resource ? 'bg-gray-100' : 'bg-gray-50'} rounded-md hover:shadow-lg transition-all duration-300 ${localState.loading === -1 && !b.resource ? 'ring-1 ring-red-400' : ''}`}>
                                 <img className="h-full w-full object-cover z-10" src={b.resource || ''} alt=" " />
                                 {!!b.resource && (
                                     <button onClick={(e) => deleteResource(e, i)} className="inlinegrid place-items-center absolute z-10 top-2 right-2 h-6 w-6 rounded-full bg-red-400 bg-opacity-70 hover:bg-opacity-100">

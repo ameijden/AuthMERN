@@ -58,7 +58,7 @@ function App(props) {
 
 
   useEffect(() => {
-    detailsCheck && history.push('/profile/setup');
+    submitState.loading !== 1 && detailsCheck && history.push('/profile/setup');
   }, [detailsCheck])//eslint-disable-line
 
 

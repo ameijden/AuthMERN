@@ -25,7 +25,7 @@ export default function Boards(props) {
             fetchBoards(props.match.params.user)
         }
         //console.log(user.favouriteMoodBoards);
-    }, [props.match.params])//eslint-disable-line
+    }, [props.match.params.user])//eslint-disable-line
 
     const fetchBoards = (user) => {
         setLocalState(1)
@@ -58,13 +58,13 @@ export default function Boards(props) {
         }
     }
 
-    const setAsHome = (board_id) => {
-        BoardService.setAsHome(board_id).then(res => {
-            dispatch(logIn({ user: res.data }))
-        }).catch(err => {
-            console.log(err);
-        })
-    }
+    // const setAsHome = (board_id) => {
+    //     BoardService.setAsHome(board_id).then(res => {
+    //         dispatch(logIn({ user: res.data }))
+    //     }).catch(err => {
+    //         console.log(err);
+    //     })
+    // }
 
     const toggleFavorites = async (board_id, toggle) => {
         try {
@@ -103,23 +103,24 @@ export default function Boards(props) {
                 </div>
             )}
             {localState === 2 && !boards.length && (
-                <div className="w-full opacity-50 text-center text-sm">No boards to show</div>
+                <div key={'asd'} className="w-full opacity-50 text-center text-sm">No boards to show</div>
             )}
             {boards.map((b, i) => (
-                <div key={i} onClick={() => history.push({ pathname: `/boards/${b._id}`, board: b })} className="cursor-pointer px-5 py-2 w-full flex justify-between hover:bg-gray-100">
-                    <div className="flex flex-wrap flex-grow gap-2">
+                // eslint-disable-next-line
+                <div key={i} onClick={() => history.push({ pathname: `/boards/${b._id}`, board: b })} className="cursor-pointer border-b px-5 py-2 w-full flex flex-wrap sm:justify-between justify-center hover:bg-gray-100">
+                    <div className="flex flex-wrap w-52 gap-2">
                         {b.images.map(im => (
-                            <div className="w-14 h-10 overflow-hidden rounded-md">
+                            <div className="w-16 h-8 overflow-hidden rounded-md">
                                 <img src={im.resource || ''} alt="  " className="w-full h-full object-cover" />
                             </div>
                         ))}
                     </div>
-                    <div className="flex gap-3 justify-end">
-                        {loggedIn && (
+                    <div className="flex gap-3 sm:justify-end sm:w-auto w-full justify-center mt-2">
+                        {/* {loggedIn && (
                             <button onClick={(e) => { e.stopPropagation(); setAsHome(b._id) }} className={`focus:outline-none h-10 w-10 rounded-full hover:bg-blue-100 ${user.homeBoard === b._id ? 'text-blue-400' : 'text-gray-400'}`}>
                                 <FontAwesomeIcon icon="home"></FontAwesomeIcon>
                             </button>
-                        )}
+                        )} */}
                         {loggedIn && (
                             <button onClick={(e) => { e.stopPropagation(); toggleFavorites(b._id, !(favourites.some(f => f === b._id))) }} className={`focus:outline-none h-10 w-10 rounded-full hover:bg-blue-100 ${favourites.some(f => f === b._id) ? 'text-blue-400' : 'text-gray-400'}`}>
                                 <FontAwesomeIcon icon="star"></FontAwesomeIcon>

@@ -53,12 +53,12 @@ export default function Board(props) {
         }
     }
 
-    const setAsHome = () => {
-        BoardService.setAsHome(board._id).then(res => {
-            dispatch(logIn(res.data))
-            //console.log(res.data)
-        })
-    }
+    // const setAsHome = () => {
+    //     BoardService.setAsHome(board._id).then(res => {
+    //         dispatch(logIn(res.data))
+    //         //console.log(res.data)
+    //     })
+    // }
 
     const toggleFavorites = async (toggle) => {
         try {
@@ -129,11 +129,11 @@ export default function Board(props) {
                 {!!board ? (
                     <>
                         <div className="w-full flex justify-center gap-5">
-                            {loggedIn && (
+                            {/* {loggedIn && (
                                 <button title="Set To Home" onClick={() => { setAsHome() }} className={`focus:outline-none h-10 w-10 rounded-full hover:bg-blue-100 ${user.homeBoard === board._id ? 'text-blue-400' : 'text-gray-400'}`}>
                                     <FontAwesomeIcon icon="home"></FontAwesomeIcon>
                                 </button>
-                            )}
+                            )} */}
                             {loggedIn && (
                                 <button title={favourite ? "Remove From Favourites" : "Add To Favourites"} onClick={() => { toggleFavorites(!favourite) }} className={`focus:outline-none h-10 w-10 rounded-full hover:bg-blue-100 ${favourite ? 'text-blue-400' : 'text-gray-400'}`}>
                                     <FontAwesomeIcon icon="star"></FontAwesomeIcon>

@@ -1,5 +1,5 @@
 import React from 'react'
-import UserDetailsForm from "../Components/userDetailsForm";
+import UserDetailsForm from "../Components/UserDetailsForm";
 
 export default function ProfileSetup() {
     return (

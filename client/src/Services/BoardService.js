@@ -4,6 +4,10 @@ let createBoard = (board) => {
     return request("post", "boards/", { images: board });
 }
 
+let getLatestBoards = () => {
+    return request("get", "boards/latest");
+}
+
 let getBoardsByUser = (user) => {
     return request("get", `boards/user/${user}`);
 }
@@ -41,6 +45,7 @@ let removeFromFavorites = (id) => {
 const BoardService = {
     getResources,
     createBoard,
+    getLatestBoards,
     getBoardsByUser,
     getBoardByID,
     deleteBoardByID,

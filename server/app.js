@@ -37,16 +37,13 @@ require('dotenv').config({ path: '.env' });
 const session = require("express-session");
 var MongoDBStore = require('connect-mongodb-session')(session);
 
-// const DB = process.env.DATABASE.replace(
-//   '<NAME>',
-//   process.env.DATABASE_NAME
-// ).replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
-
-
-const DB = require('./keys').mongoURI;
+const DB = process.env.DATABASE.replace(
+  '<NAME>',
+  process.env.DATABASE_NAME
+).replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
 var store = new MongoDBStore({
   uri: DB,
